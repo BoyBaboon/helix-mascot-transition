@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helix Transition — Alchemy Gold Research</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a12;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+  .helix {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 180px;
+    height: 320px;
+    transform: translate(-50%, -50%) scale(1);
+    transform-style: preserve-3d;
+    transition: transform 3.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  .helix.settled {
+    left: calc(100% - 110px);
+    top: calc(100% - 190px);
+    width: 90px;
+    height: 160px;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .strand {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+  .strand svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .gold { fill: none; stroke: #d4a017; stroke-width: 14; stroke-linecap: round; }
+  .purple { fill: none; stroke: #5b2d8e; stroke-width: 14; stroke-linecap: round; }
+  .rung {
+    fill: none;
+    stroke: #d4a017;
+    stroke-width: 10;
+    stroke-linecap: round;
+  }
+  .rung.purple { stroke: #5b2d8e; }
+  .face {
+    position: absolute;
+    left: 50%;
+    top: 8%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .face.visible { opacity: 1; }
+  .eye {
+    width: 16px; height: 16px;
+    background: #5b2d8e;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 6px;
+    position: relative;
+  }
+  .eye::after {
+    content: "";
+    position: absolute;
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    top: 3px; left: 4px;
+    animation: blink 4.5s infinite;
+  }
+  @keyframes blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    92%, 94% { transform: scaleY(0.1); }
+  }
+  .mouth {
+    width: 22px; height: 10px;
+    border-bottom: 3px solid #5b2d8e;
+    border-radius: 0 0 14px 14px;
+    margin: 4px auto 0;
+  }
+  .glove {
+    position: absolute;
+    width: 34px; height: 44px;
+    background: #5b2d8e;
+    border-radius: 16px 16px 10px 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
+  .glove::before {
+    content: "";
+    position: absolute;
+    width: 8px; height: 14px;
+    background: #5b2d8e;
+    border-radius: 4px;
+    top: -10px;
+  }
+  .glove.left { left: -18px; bottom: 30px; transform: rotate(-20deg); }
+  .glove.left::before { left: 6px; }
+  .glove.right { right: -18px; bottom: 30px; transform: rotate(20deg); }
+  .glove.right::before { right: 6px; left: auto; }
+  .glove.visible { opacity: 1; }
+  .helix.settled .strand {
+    animation: bob 6s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  .controls {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .controls button {
+    background: #d4a017;
+    color: #0a0a12;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .controls button:hover { background: #f0c040; }
+  .label {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #888;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="label">Alchemy Gold Research — Logo to Mascot Transition</div>
+  <div class="helix" id="helix">
+    <div class="strand">
+      <svg viewBox="0 0 180 320" xmlns="http://www.w3.org/2000/svg">
+        <path class="gold" d="M 90 20 C 150 60, 150 100, 90 140 C 30 180, 30 220, 90 260 C 150 300, 150 340, 90 380" />
+        <path class="purple" d="M 90 20 C 30 60, 30 100, 90 140 C 150 180, 150 220, 90 260 C 30 300, 30 340, 90 380" />
+        <line class="rung" x1="48" y1="70" x2="132" y2="70" />
+        <line class="rung purple" x1="48" y1="115" x2="132" y2="115" />
+        <line class="rung" x1="48" y1="205" x2="132" y2="205" />
+        <line class="rung purple" x1="48" y1="250" x2="132" y2="250" />
+      </svg>
+    </div>
+    <div class="face" id="face">
+      <div class="eye"></div>
+      <div class="eye"></div>
+      <div class="mouth"></div>
+    </div>
+    <div class="glove left" id="gloveL"></div>
+    <div class="glove right" id="gloveR"></div>
+  </div>
+  <div class="controls">
+    <button onclick="settle()">Settle to Corner</button>
+  </div>
+</div>
+<script>
+  function settle() {
+    const h = document.getElementById("helix");
+    h.classList.add("settled");
+    setTimeout(() => {
+      document.getElementById("face").classList.add("visible");
+    }, 1400);
+    setTimeout(() => {
+      document.getElementById("gloveL").classList.add("visible");
+      document.getElementById("gloveR").classList.add("visible");
+    }, 2000);
+  }
+  window.addEventListener("load", () => {
+    setTimeout(settle, 800);
+  });
+</script>
+</body>
+</html>
